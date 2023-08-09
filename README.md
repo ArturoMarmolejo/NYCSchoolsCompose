@@ -25,3 +25,6 @@ git clone git@gitlab.com:ArturoMarmolejo/20230809-arturomarmolejo-nycschools.git
 Open the Project using Android Studio, and run the App on the emulator of your preference (A Pixel 4 API 30-33 is recommended). Afterwards, you will be prompted to a screen with a single text field for searching. Type any kind of acronym you would like to find its meaning, and type enter, or click on the magnifying key of the device keyboard - only then, the network call will be made and the results will be retrieved from the API database.
 
 The App is fully compatible with night mode.
+
+
+![Search from a list of schools in the display](\20230809-arturomarmolejo-nycschools\app\src\main\res\drawable\sc1.png "Main Screen")
