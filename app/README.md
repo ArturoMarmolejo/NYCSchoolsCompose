@@ -4,10 +4,12 @@ Last updated: 2023-08-09
 
 This is an Application made in Kotlin using the mvvm architecture, with the following list of technologies used:
 
-- Data binding for views.
+- Jetpack Compose for UI
 - View Model from Jetpack for handling business for the UI
 - Hilt for dependency Injection
 - Retrofit for data retrieval and handling the proper network calls and responses.
+- Coroutines for the process of performing the network calls asynchronously and bind them to their corresponding UI components.
+- JUnit and Mock for Unit Testing
 
 
 ## Installation
@@ -15,7 +17,7 @@ This is an Application made in Kotlin using the mvvm architecture, with the foll
 Download the zip file on this page or clone the project via SSH key using the following command on your terminal, in the location of your preference:
 
 ```bash
-git clone git@github.com:ArturoMarmolejo/AcronymsAppAMM.git
+git clone git@gitlab.com:ArturoMarmolejo/20230809-arturomarmolejo-nycschools.git
 ```
 
 ## Usage
