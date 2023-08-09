@@ -27,7 +27,7 @@ Open the Project using Android Studio, and run the App on the emulator of your p
 The App is fully compatible with night mode.
 
 
-![Search from a list of schools in the display](\20230809-arturomarmolejo-nycschools\app\src\main\res\drawable\sc1.png "Main Screen")
+![Search from a list of schools in the display](https://cdn.discordapp.com/attachments/1045041684205023382/1138935515022889030/sc1.png "Main Screen")
 
 
-![Check the information and SAT Scores for a particular school](\20230809-arturomarmolejo-nycschools\app\src\main\res\drawable\sc1.png "Details Screen")
+![Check the information and SAT Scores for a particular school](https://cdn.discordapp.com/attachments/1045041684205023382/1138935515421364324/sc2.png "Details Screen")
