@@ -2,6 +2,7 @@ package com.arturomarmolejo.nycschoolscompose.data.rest
 
 import com.arturomarmolejo.nycschoolscompose.data.domain.SatScoreDomain
 import com.arturomarmolejo.nycschoolscompose.data.domain.SchoolDomain
+import com.arturomarmolejo.nycschoolscompose.data.domain.mapToSatScoreDomain
 import com.arturomarmolejo.nycschoolscompose.data.domain.mapToSchoolDomain
 import com.arturomarmolejo.nycschoolscompose.domain.GetAllSchoolsUseCase
 import com.arturomarmolejo.nycschoolscompose.domain.GetSatScoresUseCase
@@ -30,7 +31,7 @@ interface SchoolsRepository {
      * Gets List of SAT Scores from a specific school from the API
      * @return the state of the SAT Scores information in a Flow
      */
-    fun getSatScoresByDbn(dbn: String): Flow<UIState<List<SatScoreDomain>>>
+    fun getSatScoresByDbn(dbn: String?): Flow<UIState<List<SatScoreDomain>>>
 
 }
 
@@ -42,8 +43,8 @@ interface SchoolsRepository {
  */
 
 class SchoolsRepositoryImpl @Inject constructor(
-    private val getAllSchoolsUseCase: GetAllSchoolsUseCase,
-    private val getSatScoresUseCase: GetSatScoresUseCase
+    private val nycSchoolsApi: NYCSchoolsApi,
+    private val ioDispatcher: CoroutineDispatcher
 ): SchoolsRepository {
 
 
@@ -54,9 +55,21 @@ class SchoolsRepositoryImpl @Inject constructor(
      * @return the state of the school list information in a Flow
      */
 
-    override fun getSchoolList(): Flow<UIState<List<SchoolDomain>>>  {
-        return getAllSchoolsUseCase()
-    }
+    override fun getSchoolList(): Flow<UIState<List<SchoolDomain>>> = flow {
+        emit(UIState.LOADING)
+        try {
+            val response = nycSchoolsApi.getAllSchools()
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    emit(UIState.SUCCESS(it.mapToSchoolDomain()))
+                } ?: throw Exception("Response body is null")
+            } else {
+                throw Exception(response.errorBody()?.string())
+            }
+        } catch (error: Exception) {
+            emit(UIState.ERROR(error))
+        }
+    }.flowOn(ioDispatcher)
 
     /**
      * [getSatScoresByDbn] -
@@ -65,7 +78,20 @@ class SchoolsRepositoryImpl @Inject constructor(
      * @return the state of the score list information in a Flow
      */
 
-    override fun getSatScoresByDbn(dbn: String): Flow<UIState<List<SatScoreDomain>>> {
-        return getSatScoresUseCase(dbn)
-    }
+    override fun getSatScoresByDbn(dbn: String?): Flow<UIState<List<SatScoreDomain>>> = flow {
+        emit(UIState.LOADING)
+        try {
+            val response = nycSchoolsApi.getSatScoresByDbn(dbn)
+            if(response.isSuccessful) {
+                response.body()?.let {
+                    emit(UIState.SUCCESS(it.mapToSatScoreDomain()))
+                } ?: throw Exception("Response body is null")
+            } else {
+                throw Exception(response.errorBody()?.string())
+            }
+        } catch(error: Exception) {
+            emit(UIState.ERROR(error))
+        }
+    }.flowOn(ioDispatcher)
+
 }
