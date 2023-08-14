@@ -1,6 +1,8 @@
 package com.arturomarmolejo.nycschoolscompose.domain
 
 import com.arturomarmolejo.nycschoolscompose.data.rest.NYCSchoolsApi
+import com.arturomarmolejo.nycschoolscompose.data.rest.SchoolsRepository
+import com.arturomarmolejo.nycschoolscompose.data.rest.SchoolsRepositoryImpl
 import com.arturomarmolejo.nycschoolscompose.utils.UIState
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -24,6 +26,7 @@ class GetAllSchoolsUseCaseTest {
     private val mockNYCSchoolsApi = mockk<NYCSchoolsApi>()
     private val testDispatcher = UnconfinedTestDispatcher()
     private val mockApi = mockk<NYCSchoolsApi>(relaxed = true)
+    private val mockRepository = SchoolsRepositoryImpl(mockNYCSchoolsApi, testDispatcher)
 
     private lateinit var testSubject: GetAllSchoolsUseCase
     private val testScope = TestScope(testDispatcher)
@@ -31,7 +34,7 @@ class GetAllSchoolsUseCaseTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        testSubject = GetAllSchoolsUseCase(mockNYCSchoolsApi, testDispatcher)
+        testSubject = GetAllSchoolsUseCase(mockRepository)
     }
 
     @After

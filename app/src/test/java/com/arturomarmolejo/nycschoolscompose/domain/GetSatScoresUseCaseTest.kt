@@ -1,6 +1,8 @@
 package com.arturomarmolejo.nycschoolscompose.domain
 
 import com.arturomarmolejo.nycschoolscompose.data.rest.NYCSchoolsApi
+import com.arturomarmolejo.nycschoolscompose.data.rest.SchoolsRepository
+import com.arturomarmolejo.nycschoolscompose.data.rest.SchoolsRepositoryImpl
 import com.arturomarmolejo.nycschoolscompose.utils.UIState
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -21,13 +23,14 @@ class GetSatScoresUseCaseTest {
     private val mockNYCSchoolsApi = mockk<NYCSchoolsApi>()
     private val testDispatcher = UnconfinedTestDispatcher()
     private val mockApi = mockk<NYCSchoolsApi>(relaxed = true)
+    private val mockRepository = SchoolsRepositoryImpl(mockNYCSchoolsApi, testDispatcher)
 
     private lateinit var testSubject: GetSatScoresUseCase
     private val testScope = TestScope(testDispatcher)
 
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        testSubject = GetSatScoresUseCase(mockNYCSchoolsApi, testDispatcher)
+        testSubject = GetSatScoresUseCase(mockRepository)
     }
 
 
